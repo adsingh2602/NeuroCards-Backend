@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: NeuroCards
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/neurocards_db
+    username: postgres
+    password: 2611
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: create
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+#gemini:
+#  api-key: ${GEMINI_API_KEY}
+#
+#groq:
+#  api-key: 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
+
+groq:
+  api-key: ${GROQ_API_KEY}
