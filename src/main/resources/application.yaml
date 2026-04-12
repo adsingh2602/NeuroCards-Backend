@@ -24,12 +24,3 @@ spring:
 
 server:
   port: 8080
-
-#gemini:
-#  api-key: ${GEMINI_API_KEY}
-#
-#groq:
-#  api-key: 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
-
-groq:
-  api-key: ${GROQ_API_KEY}
