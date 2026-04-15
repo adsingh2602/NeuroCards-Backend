@@ -24,3 +24,6 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+groq:
+  api-key: ${GROQ_API_KEY}

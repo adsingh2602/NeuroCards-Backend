@@ -1,7 +1,7 @@
 package com.project.NeuroCards.service.impl;
 
-import com.project.NeuroCards.config.DotenvConfig;
 import com.project.NeuroCards.service.AiService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -11,12 +11,11 @@ import java.util.*;
 public class AiServiceImpl implements AiService {
 
     private final WebClient webClient;
-    private final String apiKey;
+
+    @Value("${groq.api-key}")
+    private String apiKey;
 
     public AiServiceImpl() {
-
-        this.apiKey = DotenvConfig.dotenv.get("GROQ_API_KEY");
-
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.groq.com/openai/v1/chat/completions")
                 .build();
