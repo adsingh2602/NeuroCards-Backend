@@ -3,14 +3,18 @@ spring:
     name: NeuroCards
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/neurocards_db
-    username: postgres
-    password: 2611
+      url: ${SPRING_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD
+  #    url: jdbc:postgresql://localhost:5432/neurocards_db
+  #    username: postgres
+  #    password: 2611
+
 
   jpa:
     hibernate:
       ddl-auto: update
-#      ddl-auto: create
+    #      ddl-auto: create
     show-sql: true
     open-in-view: false
     properties:
