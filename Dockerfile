@@ -1,14 +1,12 @@
-# Use Java 21
-FROM openjdk:21-jdk-slim
+# Use Java 21 (stable)
+FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
 
 COPY . .
 
 RUN chmod +x mvnw
-
 RUN ./mvnw clean package -DskipTests
-
 
 EXPOSE 8080
 
