@@ -3,9 +3,9 @@ spring:
     name: NeuroCards
 
   datasource:
-      url: ${SPRING_DATASOURCE_URL}
-      username: ${SPRING_DATASOURCE_USERNAME}
-      password: ${SPRING_DATASOURCE_PASSWORD
+      url: jdbc:postgresql://ep-shy-math-akaqdcj0-pooler.c-3.us-west-2.aws.neon.tech:5432/neondb?sslmode=require
+      username: neondb_owner
+      password: npg_c1GbrlxEU5kz
   #    url: jdbc:postgresql://localhost:5432/neurocards_db
   #    username: postgres
   #    password: 2611
@@ -31,3 +31,4 @@ server:
 
 groq:
   api-key: ${GROQ_API_KEY}
+#  api-key: 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
