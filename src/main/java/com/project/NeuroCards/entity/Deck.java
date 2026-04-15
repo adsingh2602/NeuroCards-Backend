@@ -25,8 +25,6 @@ public class Deck {
     @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Flashcard> flashcards;
 
-    public Instant getCreatedAt() { return createdAt; }
+    private Instant lastStudiedAt;
 
-    public List<Flashcard> getFlashcards() { return flashcards; }
-    public void setFlashcards(List<Flashcard> flashcards) { this.flashcards = flashcards; }
 }

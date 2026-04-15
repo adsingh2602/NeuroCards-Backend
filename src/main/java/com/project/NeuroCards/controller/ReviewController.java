@@ -16,13 +16,13 @@ public class ReviewController {
         this.service = service;
     }
 
-    // 🎯 GET REVIEW SESSION
+    //GET REVIEW SESSION
     @GetMapping("/review-session/{deckId}")
     public List<Flashcard> getReviewCards(@PathVariable Long deckId) {
         return service.getReviewCards(deckId);
     }
 
-    // 🔁 REVIEW CARD
+    //REVIEW CARD
     @PostMapping("/review/{cardId}")
     public Flashcard reviewCard(
             @PathVariable Long cardId,

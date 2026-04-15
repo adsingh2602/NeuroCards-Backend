@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class FlashcardServiceImpl implements FlashcardService {
@@ -43,34 +42,19 @@ public class FlashcardServiceImpl implements FlashcardService {
         List<Flashcard> cards = new ArrayList<>();
 
         String[] levels = {"EASY", "MEDIUM", "HARD"};
-        String difficulty = levels[new Random().nextInt(levels.length)];
 
         for (String[] qa : generatedCards) {
 
             Flashcard card = new Flashcard();
 
-            String question = qa[0];
-            String answer = qa[1];
+            card.setQuestion(qa[0]);
+            card.setAnswer(qa[1]);
 
-            card.setQuestion(question);
-            card.setAnswer(answer);
+            int length = qa[1].length();
 
-            String q = question.toLowerCase();
-            int length = question.length() + answer.length();
-
-            if (q.contains("define") || q.contains("what is")) {
-                card.setDifficulty("EASY");
-            } else if (q.contains("explain") || q.contains("why")) {
-                card.setDifficulty("MEDIUM");
-            } else if (q.contains("analyze") || q.contains("compare")) {
-                card.setDifficulty("HARD");
-            } else if (length < 100) {
-                card.setDifficulty("EASY");
-            } else if (length < 200) {
-                card.setDifficulty("MEDIUM");
-            } else {
-                card.setDifficulty("HARD");
-            }
+            if (length < 80) card.setDifficulty("EASY");
+            else if (length < 150) card.setDifficulty("MEDIUM");
+            else card.setDifficulty("HARD");
 
             card.setDeck(deck);
             cards.add(card);

@@ -90,7 +90,7 @@ http://localhost:8080
 ### Upload PDF
 
 ```
-POST /api/decks/upload
+POST /api/decks/upload-pdf
 ```
 
 ### Get All Decks

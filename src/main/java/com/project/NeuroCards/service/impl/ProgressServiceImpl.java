@@ -32,7 +32,7 @@ public class ProgressServiceImpl implements ProgressService {
         for (Flashcard card : cards) {
 
             // MASTERED LOGIC
-            if (card.getRepetition() >= 3 && card.getInterval() >= 5) {
+            if (card.getEaseFactor() > 2.5 && card.getRepetition() > 3) {
                 mastered++;
             } else {
                 learning++;

@@ -17,20 +17,17 @@ public class ReviewServiceImpl implements ReviewService {
         this.repository = repository;
     }
 
-//    @Override
-//    public List<Flashcard> getReviewCards(Long deckId) {
-//        return repository.findByDeckId(deckId)
-//                .stream()
-//                .filter(card -> card.getNextReviewTime().isBefore(Instant.now()))
-//                .filter(card -> card.getNextReviewTime().isBefore(Instant.now()))
-//                .toList();
-//    }
-
+    //  Get ONLY due cards (spaced repetition logic)
     @Override
     public List<Flashcard> getReviewCards(Long deckId) {
-        return repository.findByDeckId(deckId); // no filter
+        return repository.findByDeckId(deckId)
+                .stream()
+                .filter(card -> card.getNextReviewTime() == null ||
+                        card.getNextReviewTime().isBefore(Instant.now()))
+                .toList();
     }
 
+    // Review logic (SM-2 inspired)
     @Override
     public Flashcard reviewCard(Long cardId, String rating) {
 
@@ -42,30 +39,34 @@ public class ReviewServiceImpl implements ReviewService {
             case "again" -> {
                 card.setRepetition(0);
                 card.setInterval(1);
-                card.setLastReview("AGAIN");
+                card.setEaseFactor(Math.max(1.3,
+                        card.getEaseFactor() - 0.2));
             }
 
             case "good" -> {
                 card.setRepetition(card.getRepetition() + 1);
-                card.setInterval((int) (card.getInterval() * card.getEaseFactor()));
-                card.setLastReview("GOOD");
+
+                int newInterval = (int) (card.getInterval() * card.getEaseFactor());
+                card.setInterval(Math.max(1, newInterval));
             }
 
             case "easy" -> {
                 card.setRepetition(card.getRepetition() + 1);
                 card.setEaseFactor(card.getEaseFactor() + 0.15);
-                card.setInterval((int) (card.getInterval() * card.getEaseFactor()));
-                card.setLastReview("EASY");
+
+                int newInterval = (int) (card.getInterval() * card.getEaseFactor());
+                card.setInterval(Math.max(1, newInterval));
             }
 
             default -> throw new RuntimeException("Invalid rating");
         }
 
-        // NEXT REVIEW TIME (FIXED)
-//        card.setNextReviewTime(Instant.now());
+        card.setLastReview(rating.toUpperCase());
+
+        card.getDeck().setLastStudiedAt(Instant.now());
 
         card.setNextReviewTime(
-                Instant.now().plusSeconds(card.getInterval() * 24 * 60 * 60)
+                Instant.now().plusSeconds(card.getInterval() * 86400)
         );
 
         return repository.save(card);

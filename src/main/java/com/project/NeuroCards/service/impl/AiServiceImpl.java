@@ -2,7 +2,6 @@ package com.project.NeuroCards.service.impl;
 
 import com.project.NeuroCards.config.DotenvConfig;
 import com.project.NeuroCards.service.AiService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -28,7 +27,28 @@ public class AiServiceImpl implements AiService {
 
         String limitedText = text.substring(0, Math.min(text.length(), 2000));
 
-        String prompt = "Generate exactly 5 flashcards.\nFormat:\nQ: question\nA: answer\n\nContent:\n" + limitedText;
+        String prompt = """
+                Generate exactly 10 high-quality flashcards from the text.
+                
+                Requirements:
+                - Cover all key concepts
+                - Include definitions
+                - Include examples
+                - Include edge cases
+                - Include relationships between concepts
+                - Include important formulas (if any)
+                
+                STRICT RULES:
+                - You MUST generate exactly 10 flashcards
+                - Do NOT generate fewer than 10
+                
+                Format strictly:
+                Q: question
+                A: answer
+                
+                Content:
+                """ + limitedText;
+
 
         // REQUEST BODY
         Map<String, Object> body = new HashMap<>();
@@ -44,7 +64,7 @@ public class AiServiceImpl implements AiService {
 
         body.put("messages", messages);
         body.put("temperature", 0.7);
-        body.put("max_tokens", 300);
+        body.put("max_tokens", 1000);
         body.put("stream", false);
 
         // API CALL
@@ -88,8 +108,7 @@ public class AiServiceImpl implements AiService {
 
             if (line.startsWith("Q:")) {
                 q = line.substring(2).trim();
-            }
-            else if (line.startsWith("A:") && q != null) {
+            } else if (line.startsWith("A:") && q != null) {
                 list.add(new String[]{q, line.substring(2).trim()});
                 q = null;
             }
