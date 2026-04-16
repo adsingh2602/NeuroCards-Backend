@@ -31,7 +31,3 @@ server:
 
 jwt:
   secret-key: as9b7aodlbjfkluosfd789ujeklfnlsduf90b8ha908w74tuqijvlckajdl
-
-#groq:
-#  api-key: ${GROQ_API_KEY}
-#  api-key: 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
