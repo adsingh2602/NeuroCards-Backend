@@ -4,6 +4,7 @@ import com.project.NeuroCards.entity.Deck;
 import com.project.NeuroCards.repository.DeckRepository;
 import com.project.NeuroCards.service.FlashcardService;
 import com.project.NeuroCards.service.ProgressService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,18 +31,23 @@ public class FlashcardController {
     }
 
     @PostMapping(value = "/upload-pdf", consumes = "multipart/form-data")
-    public ResponseEntity<Deck> uploadPdf(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(service.processPdf(file));
+    public ResponseEntity<Deck> uploadPdf(
+            @RequestParam("file") MultipartFile file,
+            HttpServletRequest request) {
+        if (file.getSize() > 100 * 1024 * 1024) {
+            throw new RuntimeException("File too large (max 100MB)");
+        }
+        return ResponseEntity.ok(service.processPdf(file, request));
     }
 
     @GetMapping("/decks")
-    public ResponseEntity<List<Deck>> getDecks() {
-        return ResponseEntity.ok(service.getAllDecks());
+    public ResponseEntity<List<Deck>> getDecks(HttpServletRequest request) {
+        return ResponseEntity.ok(service.getAllDecks(request));
     }
 
     @GetMapping("/deck/{id}")
-    public ResponseEntity<Deck> getDeck(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getDeck(id));
+    public ResponseEntity<Deck> getDeck(@PathVariable Long id, HttpServletRequest request) {
+        return ResponseEntity.ok(service.getDeck(id, request));
     }
 
     @DeleteMapping("/decks/{id}")
@@ -51,7 +57,7 @@ public class FlashcardController {
     }
 
     @GetMapping("/decks/{id}/progress")
-    public ResponseEntity<Map<String, Integer>> getProgress(@PathVariable Long id) {
-        return ResponseEntity.ok(progressService.getProgress(id));
+    public ResponseEntity<Map<String, Integer>> getProgress(@PathVariable Long id, HttpServletRequest request) {
+        return ResponseEntity.ok(progressService.getProgress(id, request));
     }
 }

@@ -6,15 +6,15 @@ spring:
       url: jdbc:postgresql://ep-shy-math-akaqdcj0-pooler.c-3.us-west-2.aws.neon.tech:5432/neondb?sslmode=require
       username: neondb_owner
       password: npg_c1GbrlxEU5kz
-  #    url: jdbc:postgresql://localhost:5432/neurocards_db
-  #    username: postgres
-  #    password: 2611
+#      url: jdbc:postgresql://localhost:5432/neurocards_db
+#      username: postgres
+#      password: 2611
 
 
   jpa:
     hibernate:
-      ddl-auto: update
-    #      ddl-auto: create
+#      ddl-auto: update
+          ddl-auto: create
     show-sql: true
     open-in-view: false
     properties:
@@ -23,12 +23,15 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 server:
   port: ${PORT:8080}
 
-groq:
-  api-key: ${GROQ_API_KEY}
-#  api-key: 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
+jwt:
+  secret-key: as9b7aodlbjfkluosfd789ujeklfnlsduf90b8ha908w74tuqijvlckajdl
+
+#groq:
+#  api-key: ${GROQ_API_KEY}
+#  api-key: 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

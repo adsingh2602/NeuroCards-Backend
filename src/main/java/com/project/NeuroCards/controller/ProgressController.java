@@ -1,6 +1,7 @@
 package com.project.NeuroCards.controller;
 
 import com.project.NeuroCards.service.ProgressService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class ProgressController {
     }
 
     @GetMapping("/progress/{deckId}")
-    public Map<String, Integer> getProgress(@PathVariable Long deckId) {
-        return service.getProgress(deckId);
+    public Map<String, Integer> getProgress(@PathVariable Long deckId, HttpServletRequest request) {
+        return service.getProgress(deckId, request);
     }
 }

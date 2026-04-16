@@ -31,4 +31,8 @@ public class Flashcard {
     @ManyToOne
     @JoinColumn(name = "deck_id")
     private Deck deck;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

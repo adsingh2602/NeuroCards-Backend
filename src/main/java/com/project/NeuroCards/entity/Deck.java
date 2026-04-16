@@ -27,4 +27,8 @@ public class Deck {
 
     private Instant lastStudiedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

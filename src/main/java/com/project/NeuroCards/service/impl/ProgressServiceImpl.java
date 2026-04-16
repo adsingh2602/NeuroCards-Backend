@@ -1,8 +1,10 @@
 package com.project.NeuroCards.service.impl;
 
 import com.project.NeuroCards.entity.Flashcard;
+import com.project.NeuroCards.entity.User;
 import com.project.NeuroCards.repository.FlashcardRepository;
 import com.project.NeuroCards.service.ProgressService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,9 +22,14 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
-    public Map<String, Integer> getProgress(Long deckId) {
+    public Map<String, Integer> getProgress(Long deckId, HttpServletRequest request) {
 
-        List<Flashcard> cards = repository.findByDeckId(deckId);
+        User user = (User) request.getAttribute("user");
+
+        List<Flashcard> cards = repository.findByDeckId(deckId)
+                .stream()
+                .filter(card -> card.getUser().getId().equals(user.getId()))
+                .toList();
 
         int total = cards.size();
         int mastered = 0;
@@ -31,14 +38,12 @@ public class ProgressServiceImpl implements ProgressService {
 
         for (Flashcard card : cards) {
 
-            // MASTERED LOGIC
-            if (card.getEaseFactor() > 2.5 && card.getRepetition() > 3) {
+            if (card.getInterval() >= 24) {
                 mastered++;
             } else {
                 learning++;
             }
 
-            // DUE LOGIC (safe check)
             if (card.getNextReviewTime() != null &&
                     card.getNextReviewTime().isBefore(Instant.now())) {
                 due++;

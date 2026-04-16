@@ -2,6 +2,7 @@ package com.project.NeuroCards.controller;
 
 import com.project.NeuroCards.entity.Flashcard;
 import com.project.NeuroCards.service.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +19,15 @@ public class ReviewController {
 
     //GET REVIEW SESSION
     @GetMapping("/review-session/{deckId}")
-    public List<Flashcard> getReviewCards(@PathVariable Long deckId) {
-        return service.getReviewCards(deckId);
+    public List<Flashcard> getReviewCards(@PathVariable Long deckId, HttpServletRequest request) {
+        return service.getReviewCards(deckId, request);
     }
 
     //REVIEW CARD
     @PostMapping("/review/{cardId}")
     public Flashcard reviewCard(
             @PathVariable Long cardId,
-            @RequestParam String rating) {
-        return service.reviewCard(cardId, rating);
+            @RequestParam String rating, HttpServletRequest request) {
+        return service.reviewCard(cardId, rating, request);
     }
 }
