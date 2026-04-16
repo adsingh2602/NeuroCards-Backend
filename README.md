@@ -7,10 +7,11 @@ AI-powered flashcard generation and spaced repetition system built with **Spring
 ## 🚀 Features
 
 * 📄 Upload PDF → Extract text
-* 🤖 AI generates flashcards (Q&A)
+* 🤖 AI generates high-quality flashcards (Q&A)
 * 🧠 Spaced Repetition Algorithm
 * 📊 Progress Tracking (Mastered / Learning / Due)
 * 🔁 Review System (Again / Good / Easy)
+* 🔐 JWT Authentication (User-specific data)
 
 ---
 
@@ -19,8 +20,8 @@ AI-powered flashcard generation and spaced repetition system built with **Spring
 * Java 21
 * Spring Boot
 * Spring Data JPA
-* PostgreSQL
-* WebClient (AI API)
+* PostgreSQL(Neon DB)
+* WebClient (Groq AI API)
 * Maven
 
 ---
@@ -58,6 +59,10 @@ Create `.env` file:
 
 ```
 GROQ_API_KEY=your_api_key_here
+GROQ_API_KEY=your_api_key_here
+SPRING_DATASOURCE_URL=your_db_url
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
 ```
 
 ---
@@ -65,6 +70,17 @@ GROQ_API_KEY=your_api_key_here
 ### 3. application.yaml
 
 ```
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
 groq:
   api-key: ${GROQ_API_KEY}
 ```
@@ -86,6 +102,16 @@ http://localhost:8080
 ---
 
 ## 🔗 API Endpoints
+
+### Auth
+
+```
+POST /api/auth/signup
+```
+```
+POST /api/auth/login
+```
+
 
 ### Upload PDF
 
@@ -136,10 +162,17 @@ GET /api/progress/{deckId}
 
 ## 📌 Future Improvements
 
-* Authentication (JWT)
-* User-specific decks
+* Notifications for due cards
 * AI difficulty classification
 * Cloud deployment (AWS)
+
+---
+
+## 🔗 Live link
+
+```
+https://neurocards-iota.vercel.app/
+```
 
 ---
 
