@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +89,9 @@ public class FlashcardServiceImpl implements FlashcardService {
         if (!deck.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Unauthorized");
         }
+
+        deck.setLastStudiedAt(Instant.now());
+        deckRepository.save(deck);
 
         return deck;
     }

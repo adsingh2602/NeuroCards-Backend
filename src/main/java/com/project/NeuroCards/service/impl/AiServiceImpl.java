@@ -13,6 +13,7 @@ public class AiServiceImpl implements AiService {
     private final WebClient webClient;
 
     @Value("${groq.api-key}")
+//    @Value("${groq.api-key}")
     private String apiKey;
 
     public AiServiceImpl() {
@@ -42,8 +43,8 @@ public class AiServiceImpl implements AiService {
                 - Do NOT generate fewer than 10
                 
                 Format strictly:
-                Q: question
-                A: answer
+                Q: question (max 150 characters)
+                A: answer (max 250 characters)
                 
                 Content:
                 """ + limitedText;
