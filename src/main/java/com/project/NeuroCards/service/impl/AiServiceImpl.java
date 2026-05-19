@@ -12,8 +12,8 @@ public class AiServiceImpl implements AiService {
 
     private final WebClient webClient;
 
-    @Value("${groq.api-key}")
 //    @Value("${groq.api-key}")
+    @Value("${groq.api-key}")
     private String apiKey;
 
     public AiServiceImpl() {
